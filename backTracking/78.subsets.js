@@ -2,13 +2,14 @@
 function solution(input) {
   const result = [];
   const backTrack = (buffer, remaining) => {
-    if (remaining.length === 0) return result.push(buffer.slice());
+    result.push(buffer.slice());
+    if (remaining.length === 0) return;
     for (let i = 0; i < remaining.length; i++) {
       buffer.push(remaining[i]);
-      backTrack(buffer, remaining.slice(0, i).concat(remaining.slice(i + 1)));
+      backTrack(buffer, remaining.slice(i + 1));
       buffer.pop();
     }
   };
-  backTrack([],input)
-  return result
+  backTrack([], input);
+  return result;
 }

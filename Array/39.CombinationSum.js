@@ -3,6 +3,7 @@ function CombinationSum(arr, target) {
   const result = [];
   const buffer = [];
   search(0, target);
+  //backTrack
   function search(startIdx, target) {
     if (target === 0) return result.push(buffer.slice());
     if (target < 0) return;
