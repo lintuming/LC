@@ -16,4 +16,3 @@ function solution(arr, target) {
   return result;
 }
 
-solution([10, 1, 2, 7, 6, 1, 5], 8);
