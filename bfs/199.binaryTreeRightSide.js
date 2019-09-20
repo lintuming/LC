@@ -1,16 +1,26 @@
 
-function bfs(tree) {
-  const result = [];
-  function search(currentNode, level) {
-    if (!tree[currentNode]) return;
-    result[level] = tree[currentNode];
-    const left = currentNode * 2 + 1,
-      right = currentNode * 2 + 2;
-    search(left, level + 1);
-    search(right, level + 1);
-  }
-  search(0, 0);
-  return result;
-};
 
-console.log(bfs([1,2,3,null,5,null,4]))//1,3,4
+function bfs(tree) {
+  const result = [tree[0]];
+  const stack = [0];
+  while (stack.length) {
+    const buffer = [];
+    while (stack.length) {
+      const c = stack.shift();
+    
+        const left = c * 2 + 1,
+          right = c * 2 + 2;
+        if (tree[left]||tree[left]===0) {
+          buffer.push(tree[left]);
+        }
+        if (tree[right]||tree[left]===0) {
+          buffer.push(tree[right]);
+        }
+
+    }
+    buffer.length && result.push(buffer[buffer.length - 1]);
+    stack.push(...buffer);
+  }
+  return result;
+}
+console.log(bfs([1, 2, 3, null, 5, null, 4])); //1,3,4
