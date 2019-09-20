@@ -1,20 +1,27 @@
-
 function bfs(tree) {
-  return search(tree, 1, 2);
+  const stack = [0],
+    len = tree.length;
+  outer: while (stack.length) {
+    const buffer = [];
+    while (stack.length) {
+      const c = stack.shift(),
+        d = stack.pop();
+      if (c !== 0 && tree[c] !== tree[d]) {
+        return false;
+      }
+      if (c * 2 + 1 >= len) {
+        break outer;
+      }
+      if (c >= 0) {
+        buffer.push(c * 2 + 1, c * 2 + 2);
+      }
+      if (d >= 0) {
+        buffer.push(d * 2 + 1, d * 2 + 2);
+      }
+    }
+    stack.push(...buffer);
+  }
+  return true;
 }
 
-function search(tree, a, b) {
-  if (!tree[a] && !tree[b]) {
-    return true;
-  }
-  if (!tree[a] || !tree[b]) {
-    return false;
-  }
-  return (
-    tree[a] === tree[b] &&
-    search(tree, 2 * a + 1, 2 * b + 2) &&
-    search(tree, 2 * a + 2, 2 * b + 1)
-  );
-}
-
-console.log(bfs([1,2,2,null,3,null,3]));
+console.log(bfs([1, 2, 2, 3, null, null, 3]));

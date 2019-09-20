@@ -10,6 +10,5 @@ var twoSum = function(nums, target) {
       
       exist[nums[i]] = i;
   }
-  
   return ret
 };
