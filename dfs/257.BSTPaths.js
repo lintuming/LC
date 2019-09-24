@@ -3,7 +3,10 @@ function genPath(tree) {
   function search(current, prevPath) {
     const left = current * 2 + 1,
       right = current * 2 + 2;
-    const path = prevPath?prevPath + `->${tree[current]}`:`${tree[current]}`;
+    const path = prevPath
+      ? prevPath + `->${tree[current]}`
+      : `${tree[current]}`;
+    if (!tree[current] && tree[current] !== 0) return;
     if (!tree[left] && tree[left] !== 0 && !tree[right] && tree[right] !== 0) {
       result.push(path);
       return;
@@ -16,3 +19,4 @@ function genPath(tree) {
 }
 
 console.log(genPath([1, 2, 3, null, 5]));
+console.log(genPath([1, 2, 3, 4, 5]));
