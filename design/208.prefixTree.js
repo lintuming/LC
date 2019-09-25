@@ -25,5 +25,4 @@ class Trie {
 }
 
 const trie = new Trie();
-trie.insert("apple");
-console.log(trie.search("apple"), trie.map);
+
