@@ -1,5 +1,5 @@
 function minTriangle(triangle) {
-  let min = Math.MAX_VALUE;
+  let min = Number.MAX_VALUE;
   const h = triangle.length;
   function traverse(row, j, sum) {
     if (sum > min) {
@@ -13,7 +13,7 @@ function minTriangle(triangle) {
     for (let i = j; i <= j + 1; i++) {
       if (points[i]) {
         const next = sum + points[i];
-        traverse(row++, i, next);
+        traverse(row + 1, i, next);
       }
     }
   }
