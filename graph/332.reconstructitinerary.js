@@ -14,26 +14,17 @@ function reconstruct(itineraries) {
   }
   const flied = {};
   const result = [];
-  function reconstructImpl(airport) {
-    const tos = graph[airport];
-    if (!tos) {
-      result.push(airport);
-      return;
+  function reconstructImpl(from) {
+    const tos = graph[fromn] || [];
+    if (tos.length === 0) {
+      return result.push(fromn);
     }
-    for (let i = 0; i < tos.length; i++) {
-      const to = tos[i];
-      const line = `${airport}->${to}`;
-      if (flied[line]) {
-        continue;
-      } else {
-        flied[line] = true;
-        result.push(airport);
-        return reconstructImpl(to);
-      }
-    }
-    result.push(airport);
+    const to = tos.shift();
+    result.push(fromn);
+    reconstructImpl(to);
   }
   reconstructImpl(begin);
+  console.log(graph);
   return result;
 }
 

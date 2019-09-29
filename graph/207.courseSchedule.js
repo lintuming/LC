@@ -1,5 +1,5 @@
 /**
- * I use `bitMask` to represent some states,but actually it's not necessary,just have a tast of bitMask.
+ * Use `bitMask` to represent some states,but actually it's not necessary,just have a tast of bitMask.
  */
 const VISITING_CONTEXT = /*   */ 0b000001;
 const VISITED_CONTEXT = /*    */ 0b000010;
