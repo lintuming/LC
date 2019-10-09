@@ -3,6 +3,7 @@ function reconstruct(itineraries) {
   const graph = {};
   for (let [k, v] of itineraries) {
     if (graph[k]) {
+      //we sort the airport name by their unicode
       if (graph[k][0].charCodeAt(2) > v.charCodeAt(2)) {
         graph[k].unshift(v);
       } else {
@@ -24,7 +25,6 @@ function reconstruct(itineraries) {
     reconstructImpl(to);
   }
   reconstructImpl(begin);
-  console.log(graph);
   return result;
 }
 

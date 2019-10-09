@@ -1,7 +1,6 @@
 function isMatch(str, pattern) {
   const sL = str.length;
   const pL = pattern.length;
-  const map = {};
   function check(i, j) {
     if (i > sL) return false;
     if (i === sL && j === pL) return true;

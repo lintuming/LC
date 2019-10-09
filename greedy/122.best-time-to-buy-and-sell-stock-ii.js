@@ -1,6 +1,15 @@
+/*
+ * @lc app=leetcode id=122 lang=javascript
+ *
+ * [122] Best Time to Buy and Sell Stock II
+ */
 
-//O(n) solution
-function bestTime(prices) {
+// @lc code=start
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
   let cur = 0,
     profit = 0,
     buy = Number.MAX_VALUE;
@@ -16,6 +25,5 @@ function bestTime(prices) {
     cur++;
   }
   return profit;
-}
-
-console.log(bestTime([7,1,3,2,6,4]));
+};
+// @lc code=end
