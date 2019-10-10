@@ -5,29 +5,29 @@
  */
 
 // @lc code=start
+function solution1(s, p) {
+  let lenS = s.length,
+  lenP = p.length;
+  const map = {};
+  return check(0, 0);
 
-var isMatch = function(s, p) {
-  // let sLen = s.length,
-  //   pLen = p.length;
-  // function check(sI, pI) {
-  //   if (sI === sLen && pI === pLen) {
-  //     return true;
-  //   }
-  //   if (sI > sLen || pI > pLen) {
-  //     return false;
-  //   }
-  //   const m = p[pI];
-  //   const letter = s[sI];
-  //   if (letter === m || m === "?") {
-  //     return check(sI + 1, pI + 1);
-  //   } else {
-  //     if (m === "*" && p[pI + 1] === "*") {
-  //       return check(sI, pI + 1);
-  //     }
-  //     return m === "*" ? check(sI, pI + 1) || check(sI + 1, pI) : false;
-  //   }
-  // }
-  // return check(0, 0);
+  function check(idxS, idxP) {
+    if (map[idxS + ":" + idxP] !== undefined) return map[idxS + ":" + idxP];
+    if (idxS > lenS) return false;
+    if (idxS === lenS && idxP === lenP) return true;
+
+    if (p[idxP] === "?" || p[idxP] === s[idxS]) {
+      map[idxS + ":" + idxP] = check(idxS + 1, idxP + 1);
+    } else {
+      map[idxS + ":" + idxP] =
+        p[idxP] === "*"
+          ? check(idxS, idxP + 1) || check(idxS + 1, idxP)
+          : false;
+    }
+    return map[idxS + ":" + idxP];
+  }
+}
+function solution2(s, p) {
   const sSize = s.length,
     pSize = p.length;
   const dp = [];
@@ -45,6 +45,11 @@ var isMatch = function(s, p) {
     }
   }
   return !!dp[sSize][pSize];
+}
+
+const use = 1;
+var isMatch = function(s, p) {
+  return (use === 1 ? solution1 : solution2)(s, p);
 };
 // @lc code=end
 console.log(isMatch("aa", "a*"));

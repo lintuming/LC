@@ -17,6 +17,6 @@ var removeElement = function(nums, val) {
       nums[j++] = nums[i];
     }
   }
-  return 0
+  return j++
 };
 // @lc code=end

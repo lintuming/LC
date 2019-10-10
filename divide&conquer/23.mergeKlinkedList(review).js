@@ -33,7 +33,7 @@ const linked = arr => {
   let prev = null,
     first = null;
   while (arr.length) {
-    const node = { next: null, value: arr.shift() };
+    const node = { next: null, val: arr.shift() };
     if (prev) {
       prev.next = node;
     } else {
@@ -46,7 +46,7 @@ const linked = arr => {
 function toArray(root) {
   const result = [];
   while (root) {
-    result.push(root.value);
+    result.push(root.val);
     root = root.next;
   }
   return result
