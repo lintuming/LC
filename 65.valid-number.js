@@ -10,17 +10,7 @@
  * @return {boolean}
  */
 var isNumber = function(s) {
-  s = s.trim().split("e");
-  if (s.length > 2) return false;
-  const beforeE = s[0],
-    afterE = s[1];
-  let start = 0;
-  if (["+", "-"].includes(beforeE[0])) start = 1;
-  function isValid(value){
-    if(['+','-'].includes(value))return false;
-  }
-  for(let i = start; i < beforeE.length;i++){
-
-  }
+  
+  return 
 };
 // @lc code=end
