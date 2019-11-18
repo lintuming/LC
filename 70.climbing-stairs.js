@@ -10,14 +10,16 @@
  * @return {number}
  */
 var climbStairs = function(n) {
-  const dp = [1, 2];
-  if (n <= 2) {
-    return dp[n - 1];
+  const dp = [1, 1];
+
+  if (n === 1) {
+    return dp[1];
   }
-  for (let i = 2; i <= n - 1; i++) {
+  for (let i = 2; i <= n; i++) {
     dp[i] = dp[i - 1] + dp[i - 2];
   }
 
-  return dp[n - 1];
+  return dp[n];
 };
 // @lc code=end
+console.log(climbStairs(3))
