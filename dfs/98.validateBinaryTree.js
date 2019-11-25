@@ -10,5 +10,4 @@ function dfs(tree) {
   return search(0);
 }
 
-console.log(dfs([5, 1, 6, null, null, 3, 9]));
-
+console.log(dfs([10, 5, 15, null, null, 6, 20]));
