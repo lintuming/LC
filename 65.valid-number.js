@@ -10,7 +10,9 @@
  * @return {boolean}
  */
 var isNumber = function(s) {
+  s = s.trim();
+  const splited = s.split("e");
+  if(splited.length>2)return false;
   
-  return 
 };
 // @lc code=end

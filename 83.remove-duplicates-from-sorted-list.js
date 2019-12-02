@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode id=82 lang=javascript
+ * @lc app=leetcode id=83 lang=javascript
  *
- * [82] Remove Duplicates from Sorted List II
+ * [83] Remove Duplicates from Sorted List
  */
 
 // @lc code=start
@@ -17,22 +17,20 @@
  * @return {ListNode}
  */
 var deleteDuplicates = function(head) {
-  if (head === null) return head;
-  function removeDup(node) {
-    if (node === null) return null;
+  let node = head;
+  while (node) {
     const current = node;
     while (node.next && node.next.val === current.val) {
       node = node.next;
     }
     if (current === node) {
-      node.next = removeDup(node.next);
-      return node;
+      node = current.next;
     } else {
-      const next = node.next;
+      current.next = node.next;
       node.next = null;
-      return removeDup(next);
+      node = current.next;
     }
   }
-  return removeDup(head);
+  return head;
 };
 // @lc code=end
