@@ -18,9 +18,10 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    const head=preorder[0];
-    while(inorder.length){
-      
-    }
+  let p = 0,
+    i = 0;
+  function build() {
+    const node = new TreeNode(preorder[p++]);
+  }
 };
 // @lc code=end

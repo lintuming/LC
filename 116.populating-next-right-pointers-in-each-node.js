@@ -19,7 +19,26 @@
  * @return {Node}
  */
 var connect = function(root) {
-    
+  if(root===null)return null
+  const stack = [root];
+  while (stack.length) {
+    let length = stack.length;
+    let prev = null;
+    while (length--) {
+      const node = stack.shift();
+      if (node.left) {
+        stack.push(node.left);
+      }
+      if (node.right) {
+        stack.push(node.right);
+      }
+      if (prev) {
+        prev.next = node;
+      }
+      prev = node;
+    }
+  }
+  console.log(root)
+  return root
 };
 // @lc code=end
-

@@ -14,28 +14,149 @@
 var findLadders = function(beginWord, endWord, wordList) {
   const result = [];
   const buffer = [];
+  const cache = {};
+  const A_CODE = "a".charCodeAt(0);
+  let shortest = Number.MAX_VALUE;
+  function canTransform(from, to) {
+    if (from === to) return false;
+    if (cache[from] && cache[from].includes(to)) return true;
+    const length = from.length;
+    for (let i = 0; i < length; i++) {
+      if (
+        `${from.slice(0, i)}${from.slice(i + 1)}` ===
+        `${to.slice(0, i)}${to.slice(i + 1)}`
+      ) {
+        (cache[from] || (cache[from] = [])).push(to);
+        return true;
+      }
+    }
+    return false;
+  }
   function backTrack(lastTransformed) {
     if (lastTransformed === endWord) {
-      return result.push(buffer.slice());
+      buffer.push(lastTransformed);
+      shortest = Math.min(buffer.length, shortest);
+      result.push(buffer.slice());
+      buffer.pop();
+      return;
     }
-    if(lastTransformed)
+    if (buffer.length > shortest) return;
     buffer.push(lastTransformed);
-    for (let i = 0; i < beginWord.length; i++) {
-      const cutted = lastTransformed.slice(0, i) + lastTransformed.slice(i + 1);
-      for (let j = 0; j < wordList.length; j++) {
-        const word = wordList[j];
-        const wordCutted = word.slice(0, i) + word.slice(i + 1);
-        if (wordCutted === cutted) {
-          backTrack(word);
+    for (let i = 0; i < lastTransformed.length; i++) {
+      for (let j = 0; j < 26; j++) {
+        const letter = String.fromCharCode(A_CODE + j);
+        const transformed = `${lastTransformed.slice(
+          0,
+          i
+        )}${letter}${lastTransformed.slice(i + 1)}`;
+        if (wordList.includes(transformed) && !buffer.includes(transformed)) {
+          backTrack(transformed);
         }
       }
     }
     buffer.pop();
   }
   backTrack(beginWord);
-  return result;
+  return result.filter(res => res.length === shortest);
 };
 // @lc code=end
+
 console.log(
-  findLadders("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])
+  findLadders("qa", "sq", [
+    "si",
+    "go",
+    "se",
+    "cm",
+    "so",
+    "ph",
+    "mt",
+    "db",
+    "mb",
+    "sb",
+    "kr",
+    "ln",
+    "tm",
+    "le",
+    "av",
+    "sm",
+    "ar",
+    "ci",
+    "ca",
+    "br",
+    "ti",
+    "ba",
+    "to",
+    "ra",
+    "fa",
+    "yo",
+    "ow",
+    "sn",
+    "ya",
+    "cr",
+    "po",
+    "fe",
+    "ho",
+    "ma",
+    "re",
+    "or",
+    "rn",
+    "au",
+    "ur",
+    "rh",
+    "sr",
+    "tc",
+    "lt",
+    "lo",
+    "as",
+    "fr",
+    "nb",
+    "yb",
+    "if",
+    "pb",
+    "ge",
+    "th",
+    "pm",
+    "rb",
+    "sh",
+    "co",
+    "ga",
+    "li",
+    "ha",
+    "hz",
+    "no",
+    "bi",
+    "di",
+    "hi",
+    "qa",
+    "pi",
+    "os",
+    "uh",
+    "wm",
+    "an",
+    "me",
+    "mo",
+    "na",
+    "la",
+    "st",
+    "er",
+    "sc",
+    "ne",
+    "mn",
+    "mi",
+    "am",
+    "ex",
+    "pt",
+    "io",
+    "be",
+    "fm",
+    "ta",
+    "tb",
+    "ni",
+    "mr",
+    "pa",
+    "he",
+    "lr",
+    "sq",
+    "ye"
+  ])
 );
