@@ -10,7 +10,10 @@
  * @return {number[]}
  */
 var diffWaysToCompute = function(input) {
-    
+    const output=[];
+    function divide(){
+      
+    }
 };
 // @lc code=end
 

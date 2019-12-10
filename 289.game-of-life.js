@@ -22,7 +22,6 @@ var gameOfLife = function(board) {
     const state = board[i][j];
     let lives = 0,
       dead = 0;
-
     for (let y = i - 1; y <= i + 1; y++) {
       inner: for (let x = j - 1; x <= j + 1; x++) {
         if (board[y]) {

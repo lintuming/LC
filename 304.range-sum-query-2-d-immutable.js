@@ -20,7 +20,18 @@ var NumMatrix = function(matrix) {
  * @return {number}
  */
 NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
-  
+  let total = 0;
+  const m = this.matrix;
+  for (let i = row1; i <= row2; i++) {
+    for (let j = col1; j <= col2; j++) {
+      if (m[i]) {
+        if (m[i][j]) {
+          total += m[i][j];
+        }
+      }
+    }
+  }
+  return total;
 };
 
 /**
