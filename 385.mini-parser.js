@@ -1,0 +1,79 @@
+/*
+ * @lc app=leetcode id=385 lang=javascript
+ *
+ * [385] Mini Parser
+ */
+
+// @lc code=start
+/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * function NestedInteger() {
+ *
+ *     Return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     @return {boolean}
+ *     this.isInteger = function() {
+ *         ...
+ *     };
+ *
+ *     Return the single integer that this NestedInteger holds, if it holds a single integer
+ *     Return null if this NestedInteger holds a nested list
+ *     @return {integer}
+ *     this.getInteger = function() {
+ *         ...
+ *     };
+ *
+ *     Set this NestedInteger to hold a single integer equal to value.
+ *     @return {void}
+ *     this.setInteger = function(value) {
+ *         ...
+ *     };
+ *
+ *     Set this NestedInteger to hold a nested list and adds a nested integer elem to it.
+ *     @return {void}
+ *     this.add = function(elem) {
+ *         ...
+ *     };
+ *
+ *     Return the nested list that this NestedInteger holds, if it holds a nested list
+ *     Return null if this NestedInteger holds a single integer
+ *     @return {NestedInteger[]}
+ *     this.getList = function() {
+ *         ...
+ *     };
+ * };
+ */
+/**
+ * @param {string} s
+ * @return {NestedInteger}
+ */
+var deserialize = function(s) {
+  const isList = s[0] === "[";
+  let start = isList ? 1 : 0;
+  const instance = new NestedInteger();
+  if (!isList) {
+    instance.setInteger(Number(s));
+    return instance;
+  } else {
+    const end = s.length - 2;
+    for (let i = start; i <= end; i++) {
+      let j = i;
+      let blockCount = 0;
+      for (; j <= end; j++) {
+        if (s[j] === "[") {
+          blockCount++;
+        }
+        if (s[j] === "]") {
+          blockCount--;
+        }
+        if ((s[j] === "," || j === end) && blockCount === 0) {
+          break;
+        }
+      }
+      instance.add(s.slice(i, j === end ? j + 1 : j));
+      i = j;
+    }
+    return instance;
+  }
+};
+// @lc code=end
