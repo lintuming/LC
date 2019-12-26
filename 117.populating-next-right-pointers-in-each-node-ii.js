@@ -19,7 +19,8 @@
  * @return {Node}
  */
 var connect = function(root) {
-  const stack = [];
+  if (root === null) return root;
+  const stack = [root];
   while (stack.length) {
     let l = stack.length;
     let prev = null;
@@ -33,6 +34,6 @@ var connect = function(root) {
       prev = node;
     }
   }
-  return root
+  return root;
 };
 // @lc code=end

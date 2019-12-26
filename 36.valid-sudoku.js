@@ -10,25 +10,41 @@
  * @return {boolean}
  */
 var isValidSudoku = function(board) {
-  const hashTable = {};
+  const col = new Set();
+  const row = new Set();
+  const boxes = new Set();
+  const sets = [col, row, boxes];
   for (let i = 0; i < 9; i++) {
-    const row = new Set();
-    col = new Set();
-    sqr = new Set();
     for (let j = 0; j < 9; j++) {
-      // const rowValue = board[i][j];
-      // const colValue = board[j][i];
-      // const sqrValue =
-      //   board[Math.floor(i / 3) * 3 + Math.floor(j / 3)][(i % 3) * 3 + (j % 3)];
-      console.log(
-        i,
-        j,
-        Math.floor(i / 3) * 3 + Math.floor(j / 3),
-        (i % 3) * 3 + (j % 3)
-      );
-      
+      const values = [
+        board[i][j],
+        board[j][i],
+        board[3 * ((i / 3) >> 0) + ((j / 3) >> 0)][3 * (i % 3) + (j % 3)]
+      ];
+      if (sets.some((s, i) => s.has(values[i]))) {
+        return false;
+      }
+      sets.forEach((s, i) => {
+        if (values[i] !== ".") {
+          s.add(values[i]);
+        }
+      });
     }
+    sets.forEach(s => s.clear());
   }
+  return true;
 };
 // @lc code=end
-console.log(isValidSudoku([]));
+console.log(
+  isValidSudoku([
+    ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+    ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+    [".", "9", "8", ".", ".", ".", ".", "6", "."],
+    ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+    ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+    ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+    [".", "6", ".", ".", ".", ".", "2", "8", "."],
+    [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+    [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+  ])
+);

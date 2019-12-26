@@ -19,6 +19,12 @@
  */
 var Solution = function(head) {
   this.head = head;
+  this.len = 0;
+  let node = head;
+  while (node) {
+    this.len++;
+    node = node.next;
+  }
 };
 
 /**
@@ -26,18 +32,12 @@ var Solution = function(head) {
  * @return {number}
  */
 Solution.prototype.getRandom = function() {
-  let revisor = this.head;
-  let node = this.head.next;
-  let count = 2;
-  while (node) {
-    const random = Math.floor(Math.random() * (count+1));
-    if (random <= 1) {
-      revisor = node;
-    }
+  let randomNum = Math.floor(Math.random() * this.len + 1);
+  let node = this.head;
+  while (--randomNum) {
     node = node.next;
-    count++;
   }
-  return revisor.val;
+  return node.val;
 };
 
 /**

@@ -10,23 +10,27 @@
  * @return {number[]}
  */
 var grayCode = function(n) {
-  const start = "0".repeat(n);
-  const result = [];
-  const buffer = [];
-  function backTrack(n) {
-    if (n === 0) {
-      return result.push(buffer.join(""));
+  const res = [0];
+  /**
+   *  n=1  n=2  n=3
+   *  0    00   000
+   *  1    01   010
+   *      ----
+   *       11   011
+   *       10   010
+   *           -----
+   *            110
+   *            111
+   *            110
+   *            100
+   */
+  for (let i = 0; i < n; i++) {
+    const len = res.length;
+    const mask = 1 << i;
+    for (let j = len - 1; j >= 0; j--) {
+      res.push(res[j] | mask);
     }
-    buffer.push("0");
-    backTrack(n - 1);
-    buffer.pop();
-    buffer.push("1");
-    backTrack(n - 1);
-    buffer.pop();
   }
-  backTrack(n);
-  console.log(result);
-  return result.map(bit => Number(`0b${bit}`));
+  return res;
 };
 // @lc code=end
-console.log(grayCode(2));

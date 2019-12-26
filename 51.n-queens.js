@@ -21,8 +21,7 @@ var solveNQueens = function(n) {
     }
     for (let i = 0; i < n; i++) {
       const conflict = buffer.some((placedIdx, lvl) => {
-        if (i === 4 && level === 3) {
-        }
+    
         return (
           i === placedIdx ||
           level === lvl + placedIdx - i ||

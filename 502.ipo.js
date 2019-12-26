@@ -23,8 +23,10 @@ var findMaximizedCapital = function(k, W, Profits, Capital) {
     let left = 0,
       right = set.length,
       mid;
-    while (left < right) {
+      //左闭右开区间[left,right)
+    while (left < right) {//终止条件left===right
       mid = ((left + right) / 2) | 0;
+      //向右边界收缩
       if (set[mid][0] <= W) {
         left = mid + 1;
       } else {
@@ -33,7 +35,7 @@ var findMaximizedCapital = function(k, W, Profits, Capital) {
     }
     let maxProfit = 0,
       idx = 0;
-    for (let i = right - 1; i >= 0; i--) {
+    for (let i = left - 1; i >= 0; i--) {
       if (set[i][1] > maxProfit) {
         maxProfit = set[i][1];
         idx = i;

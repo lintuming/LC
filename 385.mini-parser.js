@@ -48,32 +48,41 @@
  * @return {NestedInteger}
  */
 var deserialize = function(s) {
-  const isList = s[0] === "[";
-  let start = isList ? 1 : 0;
-  const instance = new NestedInteger();
-  if (!isList) {
-    instance.setInteger(Number(s));
-    return instance;
-  } else {
-    const end = s.length - 2;
-    for (let i = start; i <= end; i++) {
-      let j = i;
-      let blockCount = 0;
-      for (; j <= end; j++) {
-        if (s[j] === "[") {
-          blockCount++;
+  function desrializeArray(s) {
+    s = s.slice(1, s.length - 1);
+    const nestedInterger = new NestedInteger();
+    for (let i = 0; i < s.length; i++) {
+      const str = s[i];
+      const start = i;
+      if (str === ",") {
+        continue;
+      } else if (/[0-9-]/.test(str)) {
+        while (/[0-9-]/.test(s[i])) {
+          i++;
         }
-        if (s[j] === "]") {
-          blockCount--;
+        nestedInterger.add(desrializeNumber(s.slice(start, i)));
+        continue;
+      } else if (str === "[") {
+        let p = 1;
+        i++;
+        while (p) {
+          if (s[i] === "[") {
+            p++;
+          } else if (s[i] === "]") {
+            p--;
+          }
+          i++;
         }
-        if ((s[j] === "," || j === end) && blockCount === 0) {
-          break;
-        }
+        nestedInterger.add(desrializeArray(s.slice(start, i)));
       }
-      instance.add(s.slice(i, j === end ? j + 1 : j));
-      i = j;
     }
-    return instance;
+    return nestedInterger;
   }
+  function desrializeNumber(s) {
+    const nestedInterger = new NestedInteger();
+    nestedInterger.setInteger(Number(s));
+    return nestedInterger;
+  }
+  return s.startsWith("[") ? desrializeArray(s) : desrializeNumber(s);
 };
 // @lc code=end
