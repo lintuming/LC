@@ -11,29 +11,28 @@
  * @return {string[]}
  */
 var wordBreak = function(s, wordDict) {
-  const froms = [];
-  froms[0] = [0];
-  const result = [];
-  for (let i = 1; i <= s.length; i++) {
-    froms[i] = [];
-    for (let j = 0; j < i; j++) {
-      if (froms[j].length && wordDict.includes(s.slice(j, i))) {
-        froms[j].push(i);
+  if (s.length === 0) return [];
+  const cache = {};
+  function backTrack(word) {
+    if (cache[word]) {
+      return cache[word];
+    }
+    cache[word] = [];
+    for (let i = 0; i < wordDict.length; i++) {
+      const wordInDict = wordDict[i];
+      if (word.slice(0, wordInDict.length) === wordInDict) {
+        if (wordInDict.length === word.length) {
+          cache[word].push(wordInDict);
+        } else {
+          const res = backTrack(word.slice(wordInDict.length));
+          const output = res.map(r => wordInDict + " " + r);
+          cache[word].push(...output);
+        }
       }
     }
-  }
-  function build(idx, prev) {
-    if (idx >= s.length) {
-      return result.push(prev);
-    }
-    if (!froms[idx]) return;
-    froms[idx].forEach(function(to) {
-      build(to, prev ? prev + " " + s.slice(idx, to) : s.slice(idx, to));
-    });
-  }
-  build(0, "");
-  return result;
+    return cache[word];
+  } 
+  return backTrack(s)
 };
-
 // @lc code=end
-console.log(wordBreak("catsanddog", ["cat", "cats", "and", "sand", "dog"]));
+console.log(wordBreak("aaaaaaa", ["aaaa", "aa", "a"]))

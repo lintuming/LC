@@ -18,10 +18,15 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-  let p = 0,
-    i = 0;
-  function build() {
-    const node = new TreeNode(preorder[p++]);
+  function build(p, i) {
+    if (p.length === 0) return null;
+    const root = p[0];
+    const node = new TreeNode(root);
+    const rootInInorder = i.findIndex(v => v === root);
+    node.left = build(p.slice(1, rootInInorder + 1), i.slice(0, rootInInorder));
+    node.right = build(p.slice(rootInInorder + 1), i.slice(rootInInorder + 1));
+    return node;
   }
+  return build(preorder, inorder);
 };
 // @lc code=end

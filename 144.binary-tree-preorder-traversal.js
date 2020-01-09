@@ -18,18 +18,29 @@
  */
 var preorderTraversal = function(root) {
   const result = [];
-  const stack = [];
-  while (root || stack.length) {
-    if (root) {
-      result.push(root.val);
-      if (root.right) {
-        stack.push(root.right);
-      }
-      root = root.left;
-    } else {
-      root = stack.pop();
-    }
+  // solution 1
+  // const stack = [];
+  // while (root || stack.length) {
+  //   if (root) {
+  //     result.push(root.val);
+  //     if (root.right) {
+  //       stack.push(root.right);
+  //     }
+  //     root = root.left;
+  //   } else {
+  //     root = stack.pop();
+  //   }
+  // }
+  //solution 2
+  function preOrderTraverse(root){
+    if(root===null)return ;
+    result.push(root.val)
+    preOrderTraverse(root.left)
+    preOrderTraverse(root.right)
+    
   }
+  preOrderTraverse(root)
   return result;
 };
+
 // @lc code=end

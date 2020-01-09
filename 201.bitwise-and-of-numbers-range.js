@@ -12,15 +12,11 @@
  */
 var rangeBitwiseAnd = function(m, n) {
   if (m === 0) return 0;
-  let result = null;
-  for (let i = m; i <= n; i++) {
-    if (result!==null) {
-      result = result & i;
-    } else {
-      result = i;
-    }
+  let result = m;
+  for (let i = m + 1; i <= n; i++) {
+    result &= i;
   }
-  return result;
+  return result
 };
 // @lc code=end
 console.log(rangeBitwiseAnd(1, 3));

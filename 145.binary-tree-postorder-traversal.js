@@ -19,22 +19,13 @@
 //A C E D B J H K I G F
 var postorderTraversal = function(root) {
   const result = [];
-  const stack = [];
-  //postOrder:left,right,root
-  while (root || stack.length) {
-    if (root) {
-      stack.push(root)
-      if (root.right) {
-        stack.push(root.right);
-      }
-      if (root.left === null && root.right === null) {
-        result.push(root.val);
-      }
-      root = root.left;
-    } else {
-      root = stack.pop();
-    }
+  function postOrderTraverse(root) {
+    if (root === null) return;
+    postOrderTraverse(root.left)
+    postOrderTraverse(root.right)
+    result.push(root.val)
   }
-  return result
+  postOrderTraverse(root)
+  return result;
 };
 // @lc code=end

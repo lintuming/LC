@@ -10,10 +10,20 @@
  * @return {number}
  */
 var trailingZeroes = function(n) {
-  let numZeroes = 0;
-  for (let i = 5; i <= n; i *= 5) {
-      numZeroes += Math.floor(n / i);
+  let i = 1;
+  let zeroCount = 0;
+  while(i<=n){
+    if(i%5===0){
+      zeroCount++
+    }
+    i++
   }
-  return numZeroes;
+  return zeroCount
 };
 // @lc code=end
+function multiply(n){
+  if(n===1)return 1
+  return n*multiply(n-1)
+}
+console.log(multiply(30))
+console.log(trailingZeroes(20))

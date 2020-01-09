@@ -39,7 +39,6 @@ var isValidBST = function(root) {
       } else {
         isRightValid = true;
       }
-      console.log(isLeftValid, isRightValid);
       return isLeftValid && isRightValid;
     } else {
       return false;

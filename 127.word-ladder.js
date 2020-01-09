@@ -18,73 +18,41 @@
  * @return {number}
  */
 var ladderLength = function(beginWord, endWord, wordDict) {
-  var queue = [];
-  var i = 0;
-  queue.push(beginWord);
-  function deleteWord(word) {
-    const index = wordDict.findIndex(word => word === word);
-    wordDict.splice(index, 1);
-  }
-  deleteWord(beginWord);
-  if (oneCharDiff(beginWord, endWord) && wordDict.includes(endWord)) {
-    return 2;
-  } else {
-    return bfs();
-  }
-
-  function bfs() {
-    var depth = 1;
-    while (queue.length > 0) {
-      depth++;
-      var count = queue.length;
-      while (count--) {
-        var curr = queue.shift();
-        if (oneCharDiff(curr, endWord) && curr !== beginWord) {
-          return depth;
+  let minLen = Number.MAX_VALUE;
+  const dict = new Set(wordDict);
+  const A = "a".charCodeAt();
+  let level = 1;
+  const paths = [[beginWord]];
+  const words = new Set();
+ while (paths.length) {
+    const path = paths.shift();
+    if (path.length > level) {
+      words.forEach(w => {
+        if (dict.has(w)) {
+          dict.delete(w);
         }
-        for (var i = 0; i < curr.length; i++) {
-          for (var j = "a".charCodeAt(); j <= "z".charCodeAt(); j++) {
-            var testMatch = curr;
-            var ch = String.fromCharCode(j);
-            if (testMatch[i] !== ch) {
-              testMatch = replaceChat(testMatch, i, ch);
-            }
-            if (wordDict.includes(testMatch)) {
-              queue.push(testMatch);
-              deleteWord(testMatch);
-            }
-          }
+      });
+      level = path.length;
+    }
+    const last = path[path.length - 1];
+    for (let i = 0; i < last.length; i++) {
+      for (let j = A; j <= A + 25; j++) {
+        const newWord =
+          last.slice(0, i) + String.fromCharCode(j) + last.slice(i + 1);
+        if (!dict.has(newWord)) continue;
+        words.add(newWord);
+        if (newWord === endWord) {
+          minLen = path.length + 1;
+          return minLen;
+        }else{
+          paths.push([...path,newWord]);
         }
       }
     }
-    return 0;
   }
-  function replaceChat(source, pos, newChar) {
-    var sFrontPart = source.substr(0, pos);
-    var sTailPart = source.substr(pos + 1, source.length);
-    return sFrontPart + newChar + sTailPart;
-  }
-  function oneCharDiff(a, b) {
-    if (a.length !== b.length) {
-      return false;
-    }
-    var count = 0;
-    for (var i = 0; i < a.length; i++) {
-      if (a[i].toLowerCase() !== b[i].toLowerCase()) {
-        count++;
-      }
-      if (count >= 2) {
-        return false;
-      }
-    }
-    if (count === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  return 0
 };
 // @lc code=end
 console.log(
-  ladderLength("hit", "cog", ["hot","dot","dog","lot","log","cog"])
+  ladderLength("hit", "cog", ["hot", "dot", "dog", "lot", "log", "cog"])
 );

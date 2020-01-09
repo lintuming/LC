@@ -12,52 +12,44 @@
  * @return {string[][]}
  */
 var findLadders = function(beginWord, endWord, wordList) {
-  const result = [];
-  const buffer = [];
-  const cache = {};
-  const A_CODE = "a".charCodeAt(0);
-  let shortest = Number.MAX_VALUE;
-  function canTransform(from, to) {
-    if (from === to) return false;
-    if (cache[from] && cache[from].includes(to)) return true;
-    const length = from.length;
-    for (let i = 0; i < length; i++) {
-      if (
-        `${from.slice(0, i)}${from.slice(i + 1)}` ===
-        `${to.slice(0, i)}${to.slice(i + 1)}`
-      ) {
-        (cache[from] || (cache[from] = [])).push(to);
-        return true;
-      }
+  const res = [];
+  const dict = new Set(wordList);
+  const paths = [[beginWord]];
+  const A = "a".charCodeAt();
+  const words = new Set();
+  let level = 1,
+    minLevel = Number.MAX_VALUE;
+  while (paths.length) {
+    const path = paths.shift();
+    if (path.length > level) {
+      words.forEach(word => {
+        if (dict.has(word)) {
+          dict.delete(word);
+        }
+      });
+      level = path.length;
+      if (level > minLevel) break;
     }
-    return false;
-  }
-  function backTrack(lastTransformed) {
-    if (lastTransformed === endWord) {
-      buffer.push(lastTransformed);
-      shortest = Math.min(buffer.length, shortest);
-      result.push(buffer.slice());
-      buffer.pop();
-      return;
-    }
-    if (buffer.length > shortest) return;
-    buffer.push(lastTransformed);
-    for (let i = 0; i < lastTransformed.length; i++) {
-      for (let j = 0; j < 26; j++) {
-        const letter = String.fromCharCode(A_CODE + j);
-        const transformed = `${lastTransformed.slice(
-          0,
-          i
-        )}${letter}${lastTransformed.slice(i + 1)}`;
-        if (wordList.includes(transformed) && !buffer.includes(transformed)) {
-          backTrack(transformed);
+    const last = path[path.length - 1];
+    for (let i = 0; i < last.length; i++) {
+      for (let j = A; j <= A + 25; j++) {
+        const newWord =
+          last.slice(0, i) + String.fromCharCode(j) + last.slice(i + 1);
+        if (!dict.has(newWord)) {
+          continue;
+        }
+        words.add(newWord);
+        const newPath = [...path, newWord];
+        if (newWord === endWord) {
+          res.push(newPath);
+          minLevel = newPath.length;
+        } else {
+          paths.push(newPath);
         }
       }
     }
-    buffer.pop();
   }
-  backTrack(beginWord);
-  return result.filter(res => res.length === shortest);
+  return res
 };
 // @lc code=end
 
