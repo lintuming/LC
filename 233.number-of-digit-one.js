@@ -9,9 +9,9 @@
  * @param {number} n
  * @return {number}
  */
+
 var countDigitOne = function(n) {
-  if (n <= 0) return 0;
-  let count = 1;
-  
+  let total = 0;
+
 };
 // @lc code=end

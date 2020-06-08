@@ -12,13 +12,11 @@
 var reverseBits = function(n) {
   let res = 0;
   for (let i = 0; i < 32; i++) {
-    if (n & (1 === 1)) {
-      res = (res << 1) + 1;
-    } else {
-      res = res << 1;
-    }
-    n = n >>> 1;
+    res *= 2;
+    res += n & 1;
+    console.log(res)
+    n = n >> 1;
   }
-  return res
+  return res;
 };
 // @lc code=end

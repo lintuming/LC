@@ -11,36 +11,26 @@
  */
 var calculate = function(s) {
   s = s.replace(/\s/g, "");
-  function processExpression(startIdx) {
-    const stack = [];
-    for (let i = startIdx; i < s.length; i++) {
-      const str = s[i];
-      if (["+", "-", "*", "/"].includes(str)) {
-        const poped = stack.pop();
-        if (str === "+") {
-          stack.push(poped + processExpression(i + 1));
-          return stack[0];
-        } else if (str === "-") {
-          stack.push(poped - processExpression(i + 1));
-          return stack[0];
-        } else if (str === "*") {
-          stack.push(poped * processExpression(i + 1));
-          return stack[0];
-        } else {
-          stack.push((poped / processExpression(i + 1)) | 0);
-          return stack[0];
-        }
-      }
-      let j = i + 1;
-      while (j < s.length && /[0-9]/.test(s[j])) {
-        j++;
-      }
-      stack.push(Number(s.slice(i, j)));
-      i = j - 1;
+  const stack = [];
+  let sign = "+";
+  let n = 0;
+  const ops = {
+    "+": n => stack.push(n),
+    "-": n => stack.push(-n),
+    "*": n => stack.push(stack.pop() * n),
+    "/": n => stack.push((stack.pop() / n) >>> 0)
+  };
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (/\d/.test(char)) n = n * 10 + Number(char);
+
+    if (/\D/.test(char) || i === s.length - 1) {
+      ops[sign](n);
+      sign = char;
+      n = 0;
     }
-    return stack.pop();
   }
-  return processExpression(0);
+  return stack.reduce((a, b) => a + b);
 };
 // @lc code=end
-console.log(calculate("1-1+1"));
+console.log(calculate("3/2"));

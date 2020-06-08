@@ -22,7 +22,9 @@ var isIsomorphic = function(s, t) {
     if (!map["t" + tChar]) {
       map["t" + tChar] = sChar;
     }
-    if()
+    if(map["s"+sChar]!==tChar||map["t"+tChar]!==sChar) {
+      return false
+    }
   }
   return true;
 };

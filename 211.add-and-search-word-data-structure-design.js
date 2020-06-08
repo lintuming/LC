@@ -8,24 +8,22 @@
 /**
  * Initialize your data structure here.
  */
-function search(word, words) {
-  if (words.includes(word)) {
-    return true;
+
+class Dict {
+  constructor() {
+    this.keys = new Map();
+    this.hasEnd = false;
   }
-  function backTrack(searchWord, matchWord) {
-    if (searchWord.length !== matchWord.length) return false;
-    if (!searchWord && !matchWord) return true;
-    const m = matchWord[0];
-    const l = searchWord[0];
-    if (m === "." || l === m) {
-      return backTrack(searchWord.slice(1), matchWord.slice(1));
-    }
-    return false;
+  setEnd() {
+    this.hasEnd = true;
   }
-  return words.some(w => backTrack(w, word));
+  isEnd() {
+    return this.hasEnd === true;
+  }
 }
+
 var WordDictionary = function() {
-  this.words = [];
+  this.root = new Dict();
 };
 
 /**
@@ -34,9 +32,18 @@ var WordDictionary = function() {
  * @return {void}
  */
 WordDictionary.prototype.addWord = function(word) {
-  if (!this.words.includes(word)) {
-    this.words.push(word);
+  function addWordImpl(dict, word) {
+    if (word) {
+      if (!dict.keys.has(word[0])) {
+        dict.keys.set(word[0], new Dict());
+      }
+      return addWordImpl(dict.keys.get(word[0]), word.slice(1));
+    } else {
+      dict.setEnd();
+    }
   }
+  addWordImpl(this.root, word);
+  return true;
 };
 
 /**
@@ -45,7 +52,34 @@ WordDictionary.prototype.addWord = function(word) {
  * @return {boolean}
  */
 WordDictionary.prototype.search = function(word) {
-  return search(word, this.words);
+  function searchImpl(dict, word) {
+    if (dict.keys.has(word[0]) || word[0] === ".") {
+      if (word.length === 1) {
+        if (word[0] === ".") {
+          for (let d of dict.keys.values()) {
+            if (d.isEnd()) {
+              return true;
+            }
+          }
+        } else {
+          return dict.keys.get(word[0]).isEnd();
+        }
+      }
+      if (word[0] === ".") {
+        for (let d of dict.keys.values()) {
+          if (searchImpl(d, word.slice(1))) {
+            return true;
+          }
+        }
+      } else {
+        return searchImpl(dict.keys.get(word[0]), word.slice(1));
+      }
+    }
+    return false;
+  }
+  const result = searchImpl(this.root, word);
+
+  return result;
 };
 
 /**
@@ -55,3 +89,13 @@ WordDictionary.prototype.search = function(word) {
  * var param_2 = obj.search(word)
  */
 // @lc code=end
+const w = new WordDictionary();
+const addWord = w.addWord.bind(w);
+const search = w.search.bind(w);
+addWord("bad");
+addWord("dad");
+addWord("mad");
+search("pad");
+search("bad");
+search(".ad");
+search("b..");
